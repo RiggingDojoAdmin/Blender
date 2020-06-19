@@ -39,7 +39,7 @@ def convert_recursive(base_path):
 		reset_blend()
 		
 		#import the fbx file and set settings like bone orientation
-		result = bpy.ops.import_scene.fbx (filepath=filepath_src, automatic_bone_orientation=True) 
+		result = bpy.ops.import_scene.fbx (filepath=filepath_src, automatic_bone_orientation=True, global_scale=100) 
 		
 		#make sure file is loaded before saving.
 		if not "FINISHED" in result:
