@@ -13,7 +13,7 @@
 # Once it runs you should now have a blender file that matches your source FBX in name.
 
 #Path to FBX files, using r to do raw string and not care about file path slash
-CONVERT_DIR = r"path to source FBX files"
+CONVERT_DIR = r" Edit this path to point to your source FBX files folder"
 import os
 
 def file_iter(path, ext):
@@ -23,11 +23,10 @@ def file_iter(path, ext):
 			if ext.lower().endswith(ext):
 				if ext == ".fbx":
 					yield os.path.join(dirpath, filename)
-					
 import bpy
 
-def reset_blend():
-	bpy.ops.wm.read_factory_settings(use_empty=True)
+#def reset_blend():
+	#bpy.ops.wm.read_factory_settings(use_empty=True)
 	
 def convert_recursive(base_path):
 	for filepath_src in file_iter(base_path, ".fbx"):
@@ -35,11 +34,24 @@ def convert_recursive(base_path):
 		
 		print("Converting %r -> %r" % (filepath_src, filepath_dst))
 		
-		#reset blender to default state
-		reset_blend()
+		#reset blender to default state  ( make sure you save a blank start file if you don't want to load a cube with every file)
+		bpy.ops.wm.read_homefile()
 		
 		#import the fbx file and set settings like bone orientation
 		result = bpy.ops.import_scene.fbx (filepath=filepath_src, automatic_bone_orientation=True, global_scale=100) 
+		
+		# get the current scene and frame the camera and timeline
+		for area in bpy.context.screen.areas:
+			if area.type == 'VIEW_3D':
+				ctx = bpy.context.copy()
+				ctx['area'] = area
+				ctx['region'] = area.regions[-1]
+				bpy.ops.view3d.view_all(ctx)
+		
+		#frame end of timeline to length of action keys
+		scn = bpy.context.scene 
+		for action in bpy.data.actions :
+			scn.frame_end =  action.frame_range[1] 
 		
 		#make sure file is loaded before saving.
 		if not "FINISHED" in result:
@@ -47,7 +59,7 @@ def convert_recursive(base_path):
 			continue
 			
 		#save the blender file
-		bpy.ops.wm.save_as_mainfile(filepath=filepath_dst)
+		bpy.ops.wm.save_as_mainfile(filepath=filepath_dst,check_existing=False)
 		
 if __name__ == "__main__":
 	convert_recursive(CONVERT_DIR)
