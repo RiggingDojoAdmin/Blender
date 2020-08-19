@@ -64,7 +64,11 @@ def convert_recursive(base_path):
 			continue
 			
 		#save the blender file
-		bpy.ops.wm.save_as_mainfile(filepath=filepath_dst, check_existing=False)
+		if os.path.exists(filepath_dst) == True:
+			filepath_remove = os.remove(filepath_dst)
+			bpy.ops.wm.save_as_mainfile(filepath=filepath_dst, compress=True, check_existing=False)
+		else:
+			bpy.ops.wm.save_as_mainfile(filepath=filepath_dst, compress=True, check_existing=False)
 		
 if __name__ == "__main__":
 	convert_recursive(CONVERT_DIR)
