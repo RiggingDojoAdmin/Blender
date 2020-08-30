@@ -27,7 +27,7 @@ bl_info = {
 	"location": "",
 	"description": "Scrub timeline from viewport like Maya K key scrub assigning it to the J key in Blender",
 	"warning": "",
-	"wiki_url": "",
+	"wiki_url": "https://vimeo.com/452683870",
 	"category": "Animation",
 }
 
