@@ -22,7 +22,7 @@
 bl_info = {
 	"name": "Scrub Time",
 	"author": "Brad Clark Rigging Dojo",
-	"version": (1, 0),
+	"version": (1, 1),
 	"blender": (2, 80, 0),
 	"location": "",
 	"description": "Scrub timeline from viewport like Maya K key scrub assigning it to the J key in Blender",
@@ -84,7 +84,7 @@ def register():
 	wm = bpy.context.window_manager
 	kc = wm.keyconfigs.addon
 	if kc:
-		km = kc.keymaps.new(name='3d View', space_type='VIEW_3D' )
+		km = kc.keymaps.new(name='Window', space_type='EMPTY' )
 		kmi = km.keymap_items.new("scene.scrub_time", type='J', value='PRESS') # activate scrub time
 		addon_keymaps.append((km, kmi))
 
