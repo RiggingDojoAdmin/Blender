@@ -19,7 +19,7 @@
 bl_info = {
     "name": "ctrlDisplayCycle",
     "author": "Brad Clark Rigging Dojo",
-    "version": (1, 0),
+    "version": (1, 1),
     "blender": (2, 80, 0),
     "location": "",
     "description": "Cycle display in Pose mode of bones, like MotionBuilder and Maya hotkey",
@@ -32,7 +32,6 @@ import bpy
 
 
 def main(context):
-    """Your code here."""
 
     for area in bpy.context.screen.areas:
         if area.type == 'VIEW_3D':
@@ -65,8 +64,6 @@ class SimpleMacro(bpy.types.Operator):
         main(context)
         return {'FINISHED'}
     
-    
-    
 addon_keymaps = []
 
 def register():
@@ -75,7 +72,7 @@ def register():
     wm = bpy.context.window_manager
     kc = wm.keyconfigs.addon
     if kc:
-        km = kc.keymaps.new(name='3d View', space_type='VIEW_3D' )
+        km = kc.keymaps.new(name='Window', space_type='EMPTY' )
         kmi = km.keymap_items.new("anim.ctrldisplayctnycle", type= 'F1', value= 'PRESS', alt= True)
         addon_keymaps.append((km, kmi))
 
