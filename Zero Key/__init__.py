@@ -23,7 +23,7 @@ bl_info = {
     "version": (1, 1),
     "blender": (2, 80, 0),
     "location": "",
-    "description": "Maya and Motionbuilder toold,Must have tool to work with Animation NLA layers. Sets a zero key for the control to blend back to the sorce motion",
+    "description": "Maya and Motionbuilder tool,Must have tool to work with Animation NLA layers. Sets a zero key for the control to blend back to the source motion",
     "warning": "",
     "wiki_url": "",
     "category": "Animation",
