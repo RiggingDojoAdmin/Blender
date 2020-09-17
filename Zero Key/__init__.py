@@ -20,7 +20,7 @@
 bl_info = {
     "name": "Zero Key",
     "author": "Brad Clark Rigging Dojo",
-    "version": (1, 0),
+    "version": (1, 1),
     "blender": (2, 80, 0),
     "location": "",
     "description": "Maya and Motionbuilder toold,Must have tool to work with Animation NLA layers. Sets a zero key for the control to blend back to the sorce motion",
@@ -35,7 +35,6 @@ import bpy
 
 obj = bpy.context.active_object
 selBones = bpy.context.selected_pose_bones
-value = int(0)
 
 
 #insert keyframes on the selected bones on the current frame
