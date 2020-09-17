@@ -30,29 +30,18 @@ bl_info = {
 }
 
 
-
 import bpy
 
-obj = bpy.context.active_object
-selBones = bpy.context.selected_pose_bones
+obj = bpy.context.active_object         
+animData = obj.animation_data
+action = animData.action
+fcurves = action.fcurves
+cf = bpy.context.scene.frame_current
 
 
-#insert keyframes on the selected bones on the current frame
-if bpy.context.selected_pose_bones == None:
-    print ("You must have a selection to keyframe")
+##insert keyframes on the selected bones on the current frame
+for curve in fcurves:
+    keyframePoints = curve.keyframe_points
+    keyframePoints.insert (cf,0, options = {'NEEDED'})
     
-else:
-    
-    for bone in bpy.context.selected_pose_bones: 
-        bone.location = 0.0, 0.0, 0.0   
-        bone.keyframe_insert(data_path="location", index=-1)
-        
-        bone.rotation_quaternion = 1.0, 0.0, 0.0, 0.0
-        if bone.rotation_mode == 'QUATERNION':
-            bone.keyframe_insert(data_path="rotation_quaternion", index=-1, options={'INSERTKEY_VISUAL'})
-        else: 
-            bone.rotation_euler = 0.0, 0.0, 0.0  
-            bone.keyframe_insert(data_path="rotation_euler", index=-1, options={'INSERTKEY_VISUAL'})
-            
-  
-bpy.context.view_layer.update()
+bpy.context.scene.frame_current=cf
