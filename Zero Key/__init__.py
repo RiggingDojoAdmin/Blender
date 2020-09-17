@@ -30,43 +30,30 @@ bl_info = {
 }
 
 
+
 import bpy
 
+obj = bpy.context.active_object
+selBones = bpy.context.selected_pose_bones
+value = int(0)
 
-cf = bpy.context.scene.frame_current
-ob = bpy.context.active_object
-value = 0
 
+#insert keyframes on the selected bones on the current frame
 if bpy.context.selected_pose_bones == None:
-    ob.keyframe_insert(data_path="location", index=-1)
-    if ob.rotation_mode == 'QUATERNION':
-        ob.keyframe_insert(data_path="rotation_quaternion", index=-1)
-    else: 
-        ob.keyframe_insert(data_path="rotation_euler", index=-1)
-        
+    print ("You must have a selection to keyframe")
+    
 else:
-    for bone in bpy.context.selected_pose_bones:    
+    
+    for bone in bpy.context.selected_pose_bones: 
+        bone.location = 0.0, 0.0, 0.0   
         bone.keyframe_insert(data_path="location", index=-1)
+        
+        bone.rotation_quaternion = 1.0, 0.0, 0.0, 0.0
         if bone.rotation_mode == 'QUATERNION':
             bone.keyframe_insert(data_path="rotation_quaternion", index=-1, options={'INSERTKEY_VISUAL'})
         else: 
+            bone.rotation_euler = 0.0, 0.0, 0.0  
             bone.keyframe_insert(data_path="rotation_euler", index=-1, options={'INSERTKEY_VISUAL'})
-
-
-#Find the selected object that has keys and set the keys at the current frame to a value of 0
-animData = ob.animation_data
-action = animData.action
-fcurves = action.fcurves
-
-for curve in fcurves:
-    keyframePoints = curve.keyframe_points
-    for keyframe in keyframePoints:
-        if  keyframe.co[0] == cf :
-            print ( keyframe.select_control_point)
-            keyframe.co[1] = value
-            keyframe.handle_left[1] = value
-            keyframe.handle_right[1] = value
-           
-    
-#redraw hack until a better way is learned set the current frame to itself
-bpy.context.scene.frame_current = cf
+            
+  
+bpy.context.view_layer.update()
