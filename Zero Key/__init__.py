@@ -37,11 +37,18 @@ animData = obj.animation_data
 action = animData.action
 fcurves = action.fcurves
 cf = bpy.context.scene.frame_current
-
+selBones = bpy.context.selected_pose_bones
 
 ##insert keyframes on the selected bones on the current frame
-for curve in fcurves:
-    keyframePoints = curve.keyframe_points
-    keyframePoints.insert (cf,0, options = {'NEEDED'})
+
+for bone in selBones:
+    bone_path = 'pose.bones["%s"]' % bone.name
+    for curve in fcurves:
+        print (curve.data_path.find("scale"))
+        if curve.data_path.startswith(bone_path) and not curve.data_path.endswith("scale"):
+            keyframePoints = curve.keyframe_points
+            keyframePoints.insert (cf,0, options = {'NEEDED'})
+            
     
 bpy.context.scene.frame_current=cf
+
