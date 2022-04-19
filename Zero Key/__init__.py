@@ -21,7 +21,7 @@ bl_info = {
     "name": "Zero Key",
     "author": "Brad Clark Rigging Dojo",
     "version": (1, 1),
-    "blender": (2, 80, 0),
+    "blender": (3,1,2),
     "location": "",
     "description": "Maya and Motionbuilder tool,Must have tool to work with Animation NLA layers. Sets a zero key for the control to blend back to the source motion",
     "warning": "",
@@ -35,20 +35,22 @@ import bpy
 obj = bpy.context.active_object         
 animData = obj.animation_data
 action = animData.action
-fcurves = action.fcurves
 cf = bpy.context.scene.frame_current
 selBones = bpy.context.selected_pose_bones
 
 ##insert keyframes on the selected bones on the current frame
-
-for bone in selBones:
-    bone_path = 'pose.bones["%s"]' % bone.name
-    for curve in fcurves:
-        print (curve.data_path.find("scale"))
-        if curve.data_path.startswith(bone_path) and not curve.data_path.endswith("scale"):
-            keyframePoints = curve.keyframe_points
-            keyframePoints.insert (cf,0, options = {'NEEDED'})
-            
-    
+if animData is not None and action is not None:
+    fcurves = action.fcurves
+    if len(selBones) != 0: 
+        for bone in selBones:
+            bone_path = 'pose.bones["%s"]' % bone.name
+            for curve in fcurves:
+                if curve.data_path.startswith(bone_path) and not curve.data_path.endswith("scale"):
+                    keyframePoints = curve.keyframe_points
+                keyframePoints.insert (cf,0, options = {'NEEDED'})
+    else:
+        print ("no bone selected")
+else:
+    bpy.ops.anim.keyframe_insert_menu(type='BUILTIN_KSI_LocRot')
+        
 bpy.context.scene.frame_current=cf
-
