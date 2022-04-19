@@ -23,7 +23,7 @@ bl_info = {
 	"name": "Scrub Time",
 	"author": "Brad Clark Rigging Dojo",
 	"version": (1, 1),
-	"blender": (2, 80, 0),
+	"blender": (3,1,2),
 	"location": "",
 	"description": "Scrub timeline from viewport like Maya K key scrub assigning it to the J key in Blender",
 	"warning": "",
@@ -33,8 +33,7 @@ bl_info = {
 
 
 import bpy
-from bpy.props import IntProperty, FloatProperty
-
+from bpy.props import IntProperty
 
 class ScrubTime_MO(bpy.types.Operator):
 
@@ -42,7 +41,7 @@ class ScrubTime_MO(bpy.types.Operator):
 	bl_label = "Scrub Time"
 
 	first_mouse_x: IntProperty()
-	first_value: FloatProperty()
+	first_value: IntProperty()
 
 	def modal(self, context, event):
 		if event.type == 'MOUSEMOVE':
